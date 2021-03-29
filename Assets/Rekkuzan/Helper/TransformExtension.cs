@@ -54,5 +54,27 @@ namespace Rekkuzan.Helper
                 count++;
             return count;
         }
+
+
+        /// <summary>
+        /// Set local position and local rotation (use of optimized SetPositionAndRotation transform's function)
+        /// </summary>
+        /// <param name="transform">Transform to apply position and rotation</param>
+        /// <param name="localPosition">Position in local space</param>
+        /// <param name="localRotation">Rotation in local space</param>
+        public static void SetLocalPositionAndRotation(this Transform transform, Vector3 localPosition, Quaternion localRotation)
+        {
+            // if parent is null, this is a simple set global position and rotation
+            if (transform.parent == null)
+            {
+                transform.SetPositionAndRotation(localPosition, localRotation);
+                return;
+            }
+
+            transform.SetPositionAndRotation(
+                transform.parent.TransformPoint(localPosition),
+                transform.parent.rotation * localRotation
+                );
+        }
     }
 }

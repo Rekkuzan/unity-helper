@@ -17,4 +17,5 @@ namespace Rekkuzan.Helper
                 gameObject.SetActive(enable);
         }
     }
+
 }
