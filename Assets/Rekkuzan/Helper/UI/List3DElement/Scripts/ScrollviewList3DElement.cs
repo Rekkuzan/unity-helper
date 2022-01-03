@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,17 +50,26 @@ namespace Rekkuzan.Helper.UI.List3DElement
         /// </summary>
         protected abstract void BuildList();
 
-        private Stack<RenderTexture> _renderTextureUnused = new Stack<RenderTexture>();
-        private List<RenderTexture> _renderTextureInUse = new List<RenderTexture>();
-
-        protected virtual void Start()
+        /// <summary>
+        /// This method need to be called after building the list to invoke event and optimize scroll view
+        /// </summary>
+        protected void EndFinishList()
         {
-            if (BuildOnStart)
-                BuildList();
+            OnListBuilt?.Invoke();
+            if (_optimizeScrollViewUtility)
+                _optimizeScrollViewUtility.OptimizeNextFrame();
         }
 
-        protected virtual void OnDestroy()
+        /// <summary>
+        /// This method need to be called when reseting the list, for cleanup and re-enabling the layout
+        /// </summary>
+        protected virtual void CleanList()
         {
+            Hide();
+
+            if (_optimizeScrollViewUtility)
+                _optimizeScrollViewUtility.ResetLayout();
+
             while (_renderTextureUnused.Count > 0)
             {
                 var e = _renderTextureUnused.Pop();
@@ -75,6 +85,14 @@ namespace Rekkuzan.Helper.UI.List3DElement
                     Destroy(e);
             }
 
+            while (_currentUIElements.Count > 0)
+            {
+                var e = _currentUIElements[0];
+                _currentUIElements.RemoveAt(0);
+                if (e)
+                    Destroy(e.gameObject);
+            }
+
             while (_current3DElements.Count > 0)
             {
                 var e = _current3DElements[0];
@@ -82,7 +100,41 @@ namespace Rekkuzan.Helper.UI.List3DElement
                 if (e)
                     Destroy(e.gameObject);
             }
+        }
 
+        private Stack<RenderTexture> _renderTextureUnused = new Stack<RenderTexture>();
+        private List<RenderTexture> _renderTextureInUse = new List<RenderTexture>();
+
+        private OptimizeScrollViewUtility _optimizeScrollViewUtility;
+        private CanvasGroup _canvasGroup;
+
+        public event System.Action OnListBuilt;
+
+        protected virtual void Start()
+        {
+            if (BuildOnStart)
+            {
+                BuildList();
+            }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            CleanList();
+        }
+
+        protected virtual void OnEnable()
+        {
+            _optimizeScrollViewUtility = GetComponentInChildren<OptimizeScrollViewUtility>();
+            _canvasGroup = GetComponent<CanvasGroup>();
+            if (_optimizeScrollViewUtility)
+                _optimizeScrollViewUtility.OnOptimize += ReadyToShow;
+        }
+
+        protected virtual void OnDisable()
+        {
+            if (_optimizeScrollViewUtility)
+                _optimizeScrollViewUtility.OnOptimize -= ReadyToShow;
         }
 
         /// <summary>
@@ -110,6 +162,30 @@ namespace Rekkuzan.Helper.UI.List3DElement
         {
             _renderTextureInUse.Remove(rt);
             _renderTextureUnused.Push(rt);
+        }
+
+        public void Add3DElement(GameObject3DRenderTexture elemt)
+        {
+            if (!_current3DElements.Contains(elemt))
+                _current3DElements.Add(elemt);
+        }
+
+        public void AddUIElement(GameObject3DUIElement elemt)
+        {
+            if (!_currentUIElements.Contains(elemt))
+                _currentUIElements.Add(elemt);
+        }
+
+        private void Hide()
+        {
+            if (_canvasGroup)
+                _canvasGroup.alpha = 0;
+        }
+
+        private void ReadyToShow()
+        {
+            if (_canvasGroup)
+                _canvasGroup.alpha = 1;
         }
 
         private RenderTexture CreateRenderTexture()

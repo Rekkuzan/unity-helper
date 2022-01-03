@@ -38,6 +38,7 @@ namespace Rekkuzan.Helper.UI.List3DElement
         public virtual void Initialize(ScrollviewList3DElement list)
         {
             ScrollView = list;
+            ScrollView.Add3DElement(this);
             if (_extraCameraRendering == null)
             {
                 var GameObjectCamera = new GameObject("Camera");
@@ -58,6 +59,8 @@ namespace Rekkuzan.Helper.UI.List3DElement
                 // create 2D element
                 var tt = Instantiate(ScrollView.UIPrefab, ScrollView.ListParentUI);
                 tt.Initialize(this);
+
+                ScrollView.AddUIElement(tt);
             }
         }
 

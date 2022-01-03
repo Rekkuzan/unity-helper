@@ -11,6 +11,8 @@ namespace Rekkuzan.Helper.UI.List3DElement
     [RequireComponent(typeof(LayoutElement), typeof(RectTransform))]
     public class GameObject3DUIElement : MonoBehaviour
     {
+        public GameObject3DRenderTexture Element3D => element3D;
+
         protected LayoutElement layoutElement;
         protected GameObject3DRenderTexture element3D;
         protected RectTransform selfRect;

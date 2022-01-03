@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1100389961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1100389962}
+  m_Layer: 5
+  m_Name: CENTER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1100389962
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100389961}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 546262755630560495}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &546262753747629941
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +98,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!114 &546262753747629930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48c457771c6d2d4c9a634cf4f5aba4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoOptimize: 1
 --- !u!1 &546262754087351352
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,7 +186,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -182,7 +214,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
-    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -211,8 +242,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 546262755084754988}
   m_HandleRect: {fileID: 546262755084754989}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -393,7 +424,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -422,7 +452,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
-    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -553,7 +582,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -628,7 +656,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -726,7 +753,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
 --- !u!114 &546262755592569202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,10 +782,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb6e2a74d37abf7458336597e4823f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIPrefab: {fileID: 1634212511344476178, guid: 07d13d488ac413146886a05b3353fc2c, type: 3}
-  GameObjectPrefab: {fileID: 6092207245283580110, guid: 01f76ccd37ee69d4bbe948fc8932aa57, type: 3}
-  ListParent: {fileID: 546262753747629940}
+  UIPrefab: {fileID: 1634212511344476178, guid: 07d13d488ac413146886a05b3353fc2c,
+    type: 3}
+  GameObjectPrefab: {fileID: 6092207245283580110, guid: 01f76ccd37ee69d4bbe948fc8932aa57,
+    type: 3}
+  ListParentUI: {fileID: 546262753747629940}
   RenderTextureSize: {x: 512, y: 512}
+  BuildOnStart: 1
   ColorsToShow:
   - {r: 0, g: 0.07410216, b: 1, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
@@ -821,6 +850,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 546262753747629940}
+  - {fileID: 1100389962}
   m_Father: {fileID: 546262754281064545}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

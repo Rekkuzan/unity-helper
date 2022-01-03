@@ -7,7 +7,7 @@ namespace Rekkuzan.Helper
 {
     public class ExportPackage : MonoBehaviour
     {
-        [MenuItem("Rekkkuzan/Helper/Export")]
+        [MenuItem("Rekkuzan/Helper/Export")]
         static void Export()
         {
             //Export scripts with their dependencies into a .unitypackage

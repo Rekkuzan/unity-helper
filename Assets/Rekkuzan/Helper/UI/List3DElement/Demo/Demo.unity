@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44576663, g: 0.49548185, b: 0.57428265, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -369,16 +369,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 546262754538893725, guid: 41d8983d596bf034ab835c0a09918697,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 546262754538893725, guid: 41d8983d596bf034ab835c0a09918697,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 546262754912134760, guid: 41d8983d596bf034ab835c0a09918697,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -397,6 +387,11 @@ PrefabInstance:
     - target: {fileID: 546262755084754989, guid: 41d8983d596bf034ab835c0a09918697,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 546262755084754989, guid: 41d8983d596bf034ab835c0a09918697,
+        type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 546262755592569207, guid: 41d8983d596bf034ab835c0a09918697,
@@ -508,21 +503,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CubeColorList
-      objectReference: {fileID: 0}
-    - target: {fileID: 546262755630560495, guid: 41d8983d596bf034ab835c0a09918697,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 546262755630560495, guid: 41d8983d596bf034ab835c0a09918697,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 546262755630560495, guid: 41d8983d596bf034ab835c0a09918697,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41d8983d596bf034ab835c0a09918697, type: 3}

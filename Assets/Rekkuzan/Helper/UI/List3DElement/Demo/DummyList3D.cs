@@ -9,6 +9,8 @@ public class DummyList3D : Rekkuzan.Helper.UI.List3DElement.ScrollviewList3DElem
 
     protected override void BuildList()
     {
+        base.CleanList();
+
         for (int i = 0; i < ColorsToShow.Count; i++)
         {
             var cc = Instantiate(this.GameObjectPrefab);
@@ -17,12 +19,12 @@ public class DummyList3D : Rekkuzan.Helper.UI.List3DElement.ScrollviewList3DElem
             cc.transform.position = Vector3.right * (1000 + i * 15);
             cc.Initialize(this);
 
-            _current3DElements.Add(cc);
-
             if (cc is Dummy3D dummy3D)
             {
                 dummy3D.InitializeDummy(ColorsToShow[i]);
             }
         }
+
+        base.EndFinishList();
     }
 }

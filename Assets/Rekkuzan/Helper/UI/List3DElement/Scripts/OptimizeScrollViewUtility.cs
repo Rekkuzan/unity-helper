@@ -13,23 +13,6 @@ namespace Rekkuzan.Helper.UI.List3DElement
     [RequireComponent(typeof(ContentSizeFitter), typeof(LayoutGroup))]
     public class OptimizeScrollViewUtility : MonoBehaviour
     {
-        /// <summary>
-        /// Should the optimization call on Start or Manually
-        /// </summary>
-        public bool AutoOptimizeOnStart = true;
-
-        // Start is called before the first frame update
-        IEnumerator Start()
-        {
-            if (AutoOptimizeOnStart)
-            {
-                // Be sure to wait at least one real frame for the layout to be build
-                yield return new WaitForEndOfFrame();
-                yield return null;
-                Optimize();
-            }
-        }
-
         private bool Optimized = false;
         private readonly List<GameObject3DUIElement> childs = new List<GameObject3DUIElement>();
 
@@ -37,12 +20,18 @@ namespace Rekkuzan.Helper.UI.List3DElement
         {
             if (Optimized)
             {
-                childs.ForEach(c => c.UpdateVisibility());
+                childs.ForEach(c =>
+                {
+                    if (c && c.gameObject) 
+                        c.UpdateVisibility();
+                });
             }
         }
 
         private RectTransform Content;
         private RectTransform Viewport;
+
+        public event System.Action OnOptimize;
 
         /// <summary>
         /// Need to be call after layout building to fetch all the list and disable layoutGroup
@@ -62,6 +51,37 @@ namespace Rekkuzan.Helper.UI.List3DElement
             childs.ForEach(child => child.Optimize(Content, Viewport));
 
             Optimized = true;
+            OnOptimize?.Invoke();
+        }
+
+        public void ResetLayout()
+        {
+            var c = GetComponent<ContentSizeFitter>();
+            var l = GetComponent<LayoutGroup>();
+            c.enabled = true;
+            l.enabled = true;
+
+            childs.Clear();
+
+            Optimized = false;
+        }
+
+        public void OptimizeNextFrame()
+        {
+            StartCoroutine(WaitOneFrame(Optimize));
+        }
+
+        IEnumerator WaitOneFrame(System.Action callback)
+        {
+            // actually wait 3 frames
+            // layout need more than one frame to build for some reasons
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            var s = GetComponentInParent<ScrollRect>();
+           var t = s.viewport.transform.Find("CENTER");
+            s.ScrollToCeneter(t.GetComponent<RectTransform>());
+            callback?.Invoke();
         }
     }
 }
