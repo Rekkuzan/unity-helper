@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace Rekkuzan.Helper
+namespace Rekkuzan.Utilities
 {
     public class ExportPackage : MonoBehaviour
     {
@@ -11,7 +11,7 @@ namespace Rekkuzan.Helper
         static void Export()
         {
             //Export scripts with their dependencies into a .unitypackage
-            AssetDatabase.ExportPackage("Assets/Rekkuzan/Helper", Application.dataPath + "/Rekkuzan.Helper.unitypackage", ExportPackageOptions.IncludeDependencies | ExportPackageOptions.Recurse);
+            AssetDatabase.ExportPackage("Assets/Rekkuzan/Helper", Application.dataPath + "/Rekkuzan.Utilities.unitypackage", ExportPackageOptions.IncludeDependencies | ExportPackageOptions.Recurse);
         }
     }
 }
