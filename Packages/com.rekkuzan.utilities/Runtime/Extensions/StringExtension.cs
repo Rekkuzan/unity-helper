@@ -17,9 +17,9 @@ namespace Rekkuzan.Utilities.Extensions
         {
             StringBuilder.Clear();
 
-            for(int i = 0; i < str.Length; i++)
+            for(int i = 0, count = str.Length; i < count; i++)
             {
-                char c = str[i];
+                var c = str[i];
                 if(c is >= '0' and <= '9' or >= 'A' and <= 'Z' or >= 'a' and <= 'z' or '.' or '_')
                 {
                     StringBuilder.Append(c);
@@ -39,6 +39,11 @@ namespace Rekkuzan.Utilities.Extensions
         public static string ReplaceAll(this string str, char[] separators, string newVal)
         {
             return string.Join(newVal, str.Split(separators, StringSplitOptions.RemoveEmptyEntries));
+        }
+
+        public static bool CaseInsensitiveContains(this string source, string value)
+        {
+            return source.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
         }
     }
 }
