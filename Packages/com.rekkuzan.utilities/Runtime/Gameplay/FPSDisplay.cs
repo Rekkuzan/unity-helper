@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Rekkuzan.Helper
+namespace Rekkuzan.Utilities
 {
     /// <summary>
     /// Utilities to display the current FPS

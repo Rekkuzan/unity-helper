@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Rekkuzan.Helper
+namespace Rekkuzan.Utilities
 {
     /// <summary>
     /// Behaviour to shake the camera
@@ -28,28 +29,28 @@ namespace Rekkuzan.Helper
 
         #endregion
 
-        [SerializeField] float DecreaseFactor = 1.0f;
+        [SerializeField] private float _decreaseFactor = 1.0f;
 
-        private Vector3 _OriginalPos;
-        private float _ShakeDuration = 0f;
-        private float _ShakeAmount = 0.7f;
+        private Vector3 _originalPos;
+        private float _shakeDuration = 0f;
+        private float _shakeAmount = 0.7f;
 
         private bool _isShaking = false;
 
         private void LateUpdate()
         {
-            if (_ShakeDuration <= 0)
+            if (_shakeDuration <= 0)
                 return;
-            if (_ShakeDuration > 0)
+            if (_shakeDuration > 0)
             {
-                transform.localPosition = _OriginalPos + Random.insideUnitSphere * _ShakeAmount * _ShakeDuration * 0.1f;
-                _ShakeDuration -= Time.deltaTime * DecreaseFactor;
+                transform.localPosition = _originalPos + Random.insideUnitSphere * (_shakeAmount * _shakeDuration * 0.1f);
+                _shakeDuration -= Time.deltaTime * _decreaseFactor;
             }
-            if (_ShakeDuration <= 0)
+            if (_shakeDuration <= 0)
             {
-                _ShakeDuration = 0f;
+                _shakeDuration = 0f;
                 _isShaking = false;
-                transform.localPosition = _OriginalPos;
+                transform.localPosition = _originalPos;
             }
         }
 
@@ -62,11 +63,11 @@ namespace Rekkuzan.Helper
         {
             if (!_isShaking)
             {
-                _OriginalPos = transform.localPosition;
+                _originalPos = transform.localPosition;
             }
 
-            _ShakeAmount = amount;
-            _ShakeDuration = time;
+            _shakeAmount = amount;
+            _shakeDuration = time;
             _isShaking = true;
         }
 

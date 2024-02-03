@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using UnityEngine;
 
-namespace Rekkuzan.Helper
+namespace Rekkuzan.Utilities
 {
     public static class ConsoleLogger
     {

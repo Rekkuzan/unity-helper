@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Rekkuzan.Helper
+namespace Rekkuzan.Utilities
 {
     /// <summary>
     /// Template of pool object based on MonoBehaviour

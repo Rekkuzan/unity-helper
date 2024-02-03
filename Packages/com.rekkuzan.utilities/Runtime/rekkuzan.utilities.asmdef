@@ -1,6 +1,6 @@
 {
     "name": "rekkuzan.utilities",
-    "rootNamespace": "Rekkuzan",
+    "rootNamespace": "Rekkuzan.Utilities",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

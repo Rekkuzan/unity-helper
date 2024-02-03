@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Rekkuzan.Utilities
+namespace Rekkuzan.Utilities.Extensions
 {
     public static class GameObjectExtension
     {

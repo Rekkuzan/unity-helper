@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Rekkuzan.Helper
+namespace Rekkuzan.Utilities.Extensions
 {
     public static class StringExtension
     {

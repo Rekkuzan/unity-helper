@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Rekkuzan.Helper
+namespace Rekkuzan.Utilities
 {
     public class DeviceOrientationEvent : MonoBehaviour
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Rekkuzan.Helper
+namespace Rekkuzan.Utilities
 {
     public class SingletonMonobehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {

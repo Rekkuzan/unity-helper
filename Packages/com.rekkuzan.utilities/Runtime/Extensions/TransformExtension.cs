@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Rekkuzan.Helper
+namespace Rekkuzan.Utilities.Extensions
 {
     public static class TransformExtension
     {
