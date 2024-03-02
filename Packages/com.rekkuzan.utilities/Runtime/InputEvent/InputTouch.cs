@@ -12,7 +12,7 @@ namespace Rekkuzan.Utilities.InputEvent
         {
             get
             {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
                 if (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0))
                 {
                     if (Input.GetKey(KeyCode.LeftControl))
@@ -27,7 +27,7 @@ namespace Rekkuzan.Utilities.InputEvent
 
         public static Touch GetTouchByIndex(int index)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
             Touch touch = new Touch()
             {
                 position = Input.mousePosition,
@@ -71,7 +71,7 @@ namespace Rekkuzan.Utilities.InputEvent
                 if (TouchCount > 0 && Instance._wasOverUI && GetTouchByIndex(0).phase == TouchPhase.Ended)
                     return true;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
                 return EventSystem.current && EventSystem.current.IsPointerOverGameObject();
 #endif
                 if (Input.touchCount > 0)
@@ -97,7 +97,7 @@ namespace Rekkuzan.Utilities.InputEvent
 
         private bool _wasOverUI;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
         private static float _lastTimeUpdate = 0;
         private static Vector2 _lastMousePosition;
         private static Vector2 _editorReferenceMiddlePinch;
@@ -119,7 +119,7 @@ namespace Rekkuzan.Utilities.InputEvent
 
         private void Update()
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
             _lastTimeUpdate = Time.time;
             _lastMousePosition = Input.mousePosition;
 #endif
