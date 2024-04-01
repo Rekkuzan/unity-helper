@@ -56,5 +56,20 @@ namespace Rekkuzan.Utilities.Extensions
                 count++;
             return count;
         }
+        
+        /// <summary>
+        /// Set a transform's layer and its children.
+        /// </summary>
+        /// <param name="transform">Root transform to apply the layer.</param>
+        /// <param name="layer">Layer to apply.</param>
+        public static void SetLayerRecursively(this Transform transform, int layer)
+        {
+            transform.gameObject.layer = layer;
+
+            foreach (Transform child in transform)
+            {
+                child.SetLayerRecursively(layer);
+            }
+        }
     }
 }
