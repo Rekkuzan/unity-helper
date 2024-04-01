@@ -4,6 +4,8 @@ namespace Rekkuzan.Utilities.InputEvent
 {
     public class InputBasicGestureModule : MonoBehaviour
     {
+        public static event System.Action<Vector2> OnMouseScroll; 
+
         /// <summary>
         /// Will provide the delta value distance from the previous pinch (Pixel)
         /// </summary>
@@ -24,6 +26,18 @@ namespace Rekkuzan.Utilities.InputEvent
             PerformPinch();
             PerformRotate();
             PerformHoldDrag();
+            PerformMouseScroll();
+        }
+
+        /// <summary>
+        /// Invoke OnMouseScroll when mouseScrollDelta is superior from 0.
+        /// </summary>
+        private void PerformMouseScroll()
+        {
+            if(Input.mouseScrollDelta.magnitude > 0.001f)
+            {
+                OnMouseScroll?.Invoke(Input.mouseScrollDelta);
+            }
         }
 
         /// <summary>
