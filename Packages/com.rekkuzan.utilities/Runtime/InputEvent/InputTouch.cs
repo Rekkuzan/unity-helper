@@ -58,8 +58,9 @@ namespace Rekkuzan.Utilities.InputEvent
             }
 
             return touch;
-#endif
+#else
             return Input.GetTouch(index);
+#endif
         }
 
         public static bool IsOverUI
@@ -73,7 +74,7 @@ namespace Rekkuzan.Utilities.InputEvent
 
 #if UNITY_EDITOR || UNITY_WEBGL
                 return EventSystem.current && EventSystem.current.IsPointerOverGameObject();
-#endif
+#else
                 if (Input.touchCount > 0)
                 {
                     return EventSystem.current &&
@@ -84,6 +85,7 @@ namespace Rekkuzan.Utilities.InputEvent
                     return true;
 
                 return false;
+#endif
             }
         }
 
