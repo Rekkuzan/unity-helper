@@ -16,7 +16,7 @@ namespace Rekkuzan.Utilities
     {
         private readonly Dictionary<string, string> _variableLookup = new Dictionary<string, string>();
 
-        public static string GetEnvironmentVariable(string variableName)
+        public static string GetEnvironmentVariable(string variableName, EnvironmentVariableTarget target = EnvironmentVariableTarget.User)
         {
             string value = Instance._variableLookup.GetValueOrDefault(variableName, null);
 
@@ -27,7 +27,7 @@ namespace Rekkuzan.Utilities
 
             try
             {
-                value = Environment.GetEnvironmentVariable(variableName);
+                value = Environment.GetEnvironmentVariable(variableName, target);
                 Instance._variableLookup.Add(variableName, value);
             }
             catch (Exception ex)
