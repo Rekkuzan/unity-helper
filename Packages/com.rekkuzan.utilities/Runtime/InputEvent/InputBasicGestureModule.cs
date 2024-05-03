@@ -1,4 +1,8 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 namespace Rekkuzan.Utilities.InputEvent
 {
@@ -20,6 +24,12 @@ namespace Rekkuzan.Utilities.InputEvent
         /// Will provide the delta distance of pan with 1 finger on the screen
         /// </summary>
         public static event System.Action<Vector2> OnPan;
+
+        private void Awake()
+        {
+            EnhancedTouchSupport.Enable();
+            TouchSimulation.Enable();
+        }
 
         void Update()
         {
@@ -48,17 +58,17 @@ namespace Rekkuzan.Utilities.InputEvent
             if (InputTouch.TouchCount != 2)
                 return;
 
-            Touch touch1 = InputTouch.GetTouchByIndex(0);
-            Touch touch2 = InputTouch.GetTouchByIndex(1);
+            var touch1 = InputTouch.GetTouchByIndex(0);
+            var touch2 = InputTouch.GetTouchByIndex(1);
 
-            if (touch1.phase != TouchPhase.Moved && touch2.phase != TouchPhase.Moved)
+            if (touch1.phase.ReadValue() != TouchPhase.Moved && touch2.phase.ReadValue() != TouchPhase.Moved)
                 return;
 
-            Vector2 touch1Pos = touch1.position;
-            Vector2 touch2Pos = touch2.position;
+            Vector2 touch1Pos = touch1.position.ReadValue();
+            Vector2 touch2Pos = touch2.position.ReadValue();
 
-            Vector2 touch1OldPos = touch1.position - touch1.deltaPosition;
-            Vector2 touch2OldPos = touch2.position - touch2.deltaPosition;
+            Vector2 touch1OldPos = touch1Pos - touch1.delta.ReadValue();
+            Vector2 touch2OldPos = touch2Pos - touch2.delta.ReadValue();
 
             float distance = Vector2.Distance(InputTouch.PercentPositionPixel(touch1Pos),
                 InputTouch.PercentPositionPixel(touch2Pos));
@@ -76,17 +86,17 @@ namespace Rekkuzan.Utilities.InputEvent
             if (InputTouch.TouchCount != 2)
                 return;
 
-            Touch touch1 = InputTouch.GetTouchByIndex(0);
-            Touch touch2 = InputTouch.GetTouchByIndex(1);
+            var touch1 = InputTouch.GetTouchByIndex(0);
+            var touch2 = InputTouch.GetTouchByIndex(1);
 
-            if (touch1.phase != TouchPhase.Moved && touch2.phase != TouchPhase.Moved)
+            if (touch1.phase.ReadValue() != TouchPhase.Moved && touch2.phase.ReadValue() != TouchPhase.Moved)
                 return;
 
-            Vector2 touch1Pos = touch1.position;
-            Vector2 touch2Pos = touch2.position;
+            Vector2 touch1Pos = touch1.position.ReadValue();
+            Vector2 touch2Pos = touch2.position.ReadValue();
 
-            Vector2 touch1OldPos = touch1.position - touch1.deltaPosition;
-            Vector2 touch2OldPos = touch2.position - touch2.deltaPosition;
+            Vector2 touch1OldPos = touch1Pos - touch1.delta.ReadValue();
+            Vector2 touch2OldPos = touch1Pos - touch2.delta.ReadValue();;
 
             Vector2 dir = (touch1Pos - touch2Pos).normalized;
             Vector2 oldDir = (touch1OldPos - touch2OldPos).normalized;
@@ -104,18 +114,18 @@ namespace Rekkuzan.Utilities.InputEvent
 
             if (InputTouch.TouchCount == 1)
             {
-                Touch touch1 = InputTouch.GetTouchByIndex(0);
-                if (touch1.phase == TouchPhase.Moved)
-                    OnPan?.Invoke(InputTouch.PercentPositionPixel(touch1.deltaPosition));
+                var touch1 = InputTouch.GetTouchByIndex(0);
+                if (touch1.phase.ReadValue() == TouchPhase.Moved)
+                    OnPan?.Invoke(InputTouch.PercentPositionPixel(touch1.delta.ReadValue()));
             }
             else if (InputTouch.TouchCount == 2)
             {
-                Touch touch1 = InputTouch.GetTouchByIndex(0);
-                Touch touch2 = InputTouch.GetTouchByIndex(1);
+                var touch1 = InputTouch.GetTouchByIndex(0);
+                var touch2 = InputTouch.GetTouchByIndex(1);
 
-                if (touch1.phase == TouchPhase.Moved && touch2.phase == TouchPhase.Moved)
+                if (touch1.phase.ReadValue() == TouchPhase.Moved && touch2.phase.ReadValue() == TouchPhase.Moved)
                     OnPan?.Invoke(
-                        InputTouch.PercentPositionPixel((touch1.deltaPosition + touch2.deltaPosition) * 0.5f));
+                        InputTouch.PercentPositionPixel((touch1.delta.ReadValue() + touch2.delta.ReadValue()) * 0.5f));
             }
         }
     }

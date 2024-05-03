@@ -1,5 +1,8 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.Controls;
+using TouchPhase = UnityEditor.DeviceSimulation.TouchPhase;
 
 namespace Rekkuzan.Utilities.InputEvent
 {
@@ -12,80 +15,35 @@ namespace Rekkuzan.Utilities.InputEvent
         {
             get
             {
-#if UNITY_EDITOR || UNITY_WEBGL
-                if (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0))
+                var touchCount = 0;
+                for (var i = 0; i < Touchscreen.current.touches.Count; i++)
                 {
-                    if (Input.GetKey(KeyCode.LeftControl))
+                    touchCount += Touchscreen.current.touches[i].press.isPressed ? 1 : 0;
+                }
+                
+#if UNITY_EDITOR || UNITY_WEBGL
+                if (touchCount >= 1)
+                {
+                    if (Keyboard.current.leftCtrlKey.isPressed)
                         return 2;
                     return 1;
                 }
 #endif
 
-                return Input.touchCount;
+                return touchCount;
             }
         }
 
-        public static Touch GetTouchByIndex(int index)
+        public static TouchControl GetTouchByIndex(int index)
         {
-#if UNITY_EDITOR || UNITY_WEBGL
-            Touch touch = new Touch()
-            {
-                position = Input.mousePosition,
-                phase = TouchPhase.Stationary,
-                deltaTime = Time.time - _lastTimeUpdate,
-                deltaPosition = (Vector2)Input.mousePosition - _lastMousePosition,
-            };
-
-            // On editor, moving more than 1 pixel to consider moving
-            if (touch.deltaPosition.magnitude > 1)
-                touch.phase = TouchPhase.Moved;
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                touch.phase = TouchPhase.Began;
-            }
-
-            else if (Input.GetMouseButtonUp(0))
-            {
-                touch.phase = TouchPhase.Ended;
-            }
-
-            if (Input.GetKey(Instance._secondaryTouchKeyPinch) && index == 1)
-            {
-                Vector2 offsetTouch1 = (Vector2)Input.mousePosition - _editorReferenceMiddlePinch;
-                touch.position = _editorReferenceMiddlePinch - offsetTouch1;
-                touch.deltaPosition *= -1;
-            }
-
-            return touch;
-#else
-            return Input.GetTouch(index);
-#endif
+            return Touchscreen.current.touches[index];
         }
 
         public static bool IsOverUI
         {
             get
             {
-                // Dirty fix 
-                // Touch/Mouse up over UI is not registered
-                if (TouchCount > 0 && Instance._wasOverUI && GetTouchByIndex(0).phase == TouchPhase.Ended)
-                    return true;
-
-#if UNITY_EDITOR || UNITY_WEBGL
-                return EventSystem.current && EventSystem.current.IsPointerOverGameObject();
-#else
-                if (Input.touchCount > 0)
-                {
-                    return EventSystem.current &&
-                           EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
-                }
-
-                if (EventSystem.current && EventSystem.current.IsPointerOverGameObject(0))
-                    return true;
-
-                return false;
-#endif
+                return EventSystem.current.IsPointerOverGameObject(Touchscreen.current.primaryTouch.touchId.ReadValue());
             }
         }
 
@@ -97,16 +55,21 @@ namespace Rekkuzan.Utilities.InputEvent
             return screenPosition;
         }
 
+        private void Update()
+        {
+            if (TouchCount > 0 && GetTouchByIndex(0).phase.ReadValue() != UnityEngine.InputSystem.TouchPhase.Canceled)
+            {
+                _wasOverUI = IsOverUI;
+            }
+        }
+
         private bool _wasOverUI;
 
 #if UNITY_EDITOR || UNITY_WEBGL
-        private static float _lastTimeUpdate = 0;
-        private static Vector2 _lastMousePosition;
         private static Vector2 _editorReferenceMiddlePinch;
 
         private void OnEnable()
         {
-            _lastTimeUpdate = Time.time;
             _editorReferenceMiddlePinch = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
             DeviceOrientationEvent.OnOrientationChangedEvent += OnScreenChanged;
             DeviceOrientationEvent.OnResolutionChangedEvent += OnScreenChanged;
@@ -118,19 +81,5 @@ namespace Rekkuzan.Utilities.InputEvent
             _editorReferenceMiddlePinch.y = Screen.height * 0.5F;
         }
 #endif
-
-        private void Update()
-        {
-#if UNITY_EDITOR || UNITY_WEBGL
-            _lastTimeUpdate = Time.time;
-            _lastMousePosition = Input.mousePosition;
-#endif
-
-            if (TouchCount > 0 && GetTouchByIndex(0).phase != TouchPhase.Ended)
-            {
-                _wasOverUI = IsOverUI;
-            }
-        }
-
     }
 }
