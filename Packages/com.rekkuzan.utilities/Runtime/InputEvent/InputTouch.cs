@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-#if !UNITY_EDITOR && (UNITY_IOS || UNITY_ANDROID)
-    #define MOBILE
-#endif
 
 namespace Rekkuzan.Utilities.InputEvent
 {
