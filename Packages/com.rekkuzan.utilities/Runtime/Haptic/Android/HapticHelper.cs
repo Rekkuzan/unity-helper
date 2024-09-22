@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Rekkuzan.Helper.Haptic
+namespace Rekkuzan.Utilities.Haptic.Android
 {
     public static class HapticHelper
     {
+        public static bool HapticEnabled { get; set; } = true;
+        
         public enum KeyType
         {
             Light,
@@ -25,23 +27,64 @@ namespace Rekkuzan.Helper.Haptic
         private AndroidJavaObject UnityPlayer;
 #endif
 
+            static int _sdkAPI = -1;
+            static bool _initialized = false;
+            static int getSDKInt()
+            {
+                if (_sdkAPI > 0)
+                {
+                    return _sdkAPI;
+                }
+#if UNITY_ANDROID && !UNITY_EDITOR
+                using (var version = new AndroidJavaClass("android.os.Build$VERSION"))
+                {
+                    _sdkAPI = version.GetStatic<int>("SDK_INT");
+                }
+#endif
+                return _sdkAPI;
+            }
 
             public HapticFeedbackManager()
             {
+                _sdkAPI = getSDKInt();
+
+                if (_sdkAPI < 24)
+                {
+                    return;
+                }
+                try
+                {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            HapticFeedbackKey_LIGHT = new AndroidJavaClass("android.view.HapticFeedbackConstants").GetStatic<int>("KEYBOARD_TAP");
-            HapticFeedbackKey_MEDIUM = new AndroidJavaClass("android.view.HapticFeedbackConstants").GetStatic<int>("VIRTUAL_KEY");
-            HapticFeedbackKey_HEAVY = new AndroidJavaClass("android.view.HapticFeedbackConstants").GetStatic<int>("LONG_PRESS");
-            HapticFeedbackKey_FAIL = new AndroidJavaClass("android.view.HapticFeedbackConstants").GetStatic<int>("REJECT");
-            UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer");
-            //Alternative way to get the UnityPlayer:
-            //int content=new AndroidJavaClass("android.R$id").GetStatic<int>("content");
-            //new AndroidJavaClass ("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity").Call<AndroidJavaObject>("findViewById",content).Call<AndroidJavaObject>("getChildAt",0);
+                HapticFeedbackKey_LIGHT = new AndroidJavaClass("android.view.HapticFeedbackConstants").GetStatic<int>("KEYBOARD_TAP");
+                HapticFeedbackKey_MEDIUM = new AndroidJavaClass("android.view.HapticFeedbackConstants").GetStatic<int>("VIRTUAL_KEY");
+                HapticFeedbackKey_HEAVY = new AndroidJavaClass("android.view.HapticFeedbackConstants").GetStatic<int>("LONG_PRESS");
+                HapticFeedbackKey_FAIL =
+                       _sdkAPI >= 30
+                       ? new AndroidJavaClass("android.view.HapticFeedbackConstants").GetStatic<int>("REJECT")
+                       : HapticFeedbackKey_LIGHT;
+                //UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer");
+                //Alternative way to get the UnityPlayer:
+                int content=new AndroidJavaClass("android.R$id").GetStatic<int>("content");
+                UnityPlayer = new AndroidJavaClass ("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity").Call<AndroidJavaObject>("findViewById",content).Call<AndroidJavaObject>("getChildAt",0);
 #endif
+                    _initialized = true;
+                } 
+                catch (System.Exception)
+                {
+                    // Fail silently
+                    _initialized = false;
+                }
             }
 
             public bool Execute(KeyType type)
             {
+                if (_sdkAPI < 24 || !_initialized)
+                {
+                    return false;
+                }
+                try
+                {
+
 #if UNITY_ANDROID && !UNITY_EDITOR
 
             int key = HapticFeedbackKey_LIGHT;
@@ -63,8 +106,16 @@ namespace Rekkuzan.Helper.Haptic
 
             return UnityPlayer.Call<bool> ("performHapticFeedback", key);
 #else
-                return false;
+                    return false;
 #endif
+                }
+                catch (System.Exception)
+                {
+                    // Fail silently
+                    _initialized = false;
+                }
+
+                return false;
             }
         }
 
@@ -73,6 +124,11 @@ namespace Rekkuzan.Helper.Haptic
 
         public static bool HapticFeedback(KeyType type)
         {
+            if (HapticEnabled == false)
+            {
+                return false;
+            }
+            
             if (mHapticFeedbackManager == null)
             {
                 mHapticFeedbackManager = new HapticFeedbackManager();
