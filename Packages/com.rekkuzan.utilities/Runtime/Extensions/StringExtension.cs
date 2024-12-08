@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Rekkuzan.Utilities.Extensions
@@ -69,17 +68,17 @@ namespace Rekkuzan.Utilities.Extensions
             if (string.IsNullOrWhiteSpace(input))
                 throw new ArgumentException("Input cannot be null or whitespace.", nameof(input));
 
-            _stringBuilder.Clear();
-            _stringBuilder.EnsureCapacity(input.Length);
+            StringBuilder.Clear();
+            StringBuilder.EnsureCapacity(input.Length);
             foreach (char c in input)
             {
                 if (!InvalidCharForPathName.Contains(c))
                 {
-                    _stringBuilder.Append(c);
+                    StringBuilder.Append(c);
                 }
             }
             
-            return _stringBuilder.ToString();
+            return StringBuilder.ToString();
         }
 
     }
