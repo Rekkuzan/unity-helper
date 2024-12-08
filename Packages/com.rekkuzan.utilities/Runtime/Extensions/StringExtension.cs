@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Rekkuzan.Utilities.Extensions
@@ -45,5 +48,39 @@ namespace Rekkuzan.Utilities.Extensions
         {
             return source.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
         }
+
+
+        private static HashSet<char> _invalidCharForPathName;
+        private static HashSet<char> InvalidCharForPathName
+        {
+            get
+            {
+                return _invalidCharForPathName ??= new HashSet<char>(Path.GetInvalidPathChars()) { '\\', '/' };
+            }
+        }
+
+        /// <summary>
+        /// Ensures the string is valid for use as a file or folder name by removing invalid characters.
+        /// </summary>
+        /// <param name="input">The input string to validate and sanitize.</param>
+        /// <returns>A sanitized string safe to use in paths.</returns>
+        public static string ToValidPathName(this string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                throw new ArgumentException("Input cannot be null or whitespace.", nameof(input));
+
+            _stringBuilder.Clear();
+            _stringBuilder.EnsureCapacity(input.Length);
+            foreach (char c in input)
+            {
+                if (!InvalidCharForPathName.Contains(c))
+                {
+                    _stringBuilder.Append(c);
+                }
+            }
+            
+            return _stringBuilder.ToString();
+        }
+
     }
 }
