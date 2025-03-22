@@ -1,6 +1,6 @@
 {
   "name": "com.rekkuzan.utilities",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "displayName": "Rekkuzan Utilities",
   "description": "This is a package containing various extensions and utilities for Unity.",
   "unity": "2022.3",
@@ -11,8 +11,8 @@
   "dependencies": {
     "com.unity.test-framework": "1.1.33",
     "com.unity.ugui": "1.0.0"
- },
- "keywords": [
+  },
+  "keywords": [
     "utilities",
     "rekkuzan",
     "helper"

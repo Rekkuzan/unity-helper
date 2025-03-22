@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Rekkuzan.Helper.UI
+namespace Rekkuzan.Utilities.UI
 {
     /// <summary>
     /// Safe area implementation for notched mobile devices. Usage:

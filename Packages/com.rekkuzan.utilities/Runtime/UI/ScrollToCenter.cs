@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Rekkuzan.Helper.UI
+namespace Rekkuzan.Utilities.UI
 {
     /*
      * Code from https://gist.github.com/sttz/c406aec3ace821738ecd4fa05833d21d

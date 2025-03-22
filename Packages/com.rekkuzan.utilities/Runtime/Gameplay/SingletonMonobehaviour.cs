@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Rekkuzan.Utilities
@@ -14,10 +12,7 @@ namespace Rekkuzan.Utilities
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<T>();
-                }
+                _instance ??= FindFirstObjectByType<T>();
 
                 return _instance;
             }

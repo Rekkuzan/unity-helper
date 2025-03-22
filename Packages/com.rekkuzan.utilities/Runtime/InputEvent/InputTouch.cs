@@ -69,7 +69,9 @@ namespace Rekkuzan.Utilities.InputEvent
                 return touch;
             }
 
+#pragma warning disable CS0162 // Unreachable code detected
             return Input.GetTouch(index);
+#pragma warning restore CS0162 // Unreachable code detected
         }
 
         public static bool IsOverUI
@@ -84,6 +86,7 @@ namespace Rekkuzan.Utilities.InputEvent
                 if (!IsMobile)
                     return EventSystem.current && EventSystem.current.IsPointerOverGameObject();
 
+#pragma warning disable CS0162 // Unreachable code detected
                 if (Input.touchCount > 0)
                 {
                     return EventSystem.current &&
@@ -94,6 +97,7 @@ namespace Rekkuzan.Utilities.InputEvent
                     return true;
 
                 return false;
+#pragma warning restore CS0162 // Unreachable code detected
             }
         }
 
@@ -116,14 +120,15 @@ namespace Rekkuzan.Utilities.InputEvent
         {
             _lastTimeUpdate = Time.time;
             _editorReferenceMiddlePinch = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-            if (!IsMobile)
-            {
-                DeviceOrientationEvent.OnOrientationChangedEvent += OnScreenChanged;
-                DeviceOrientationEvent.OnResolutionChangedEvent += OnScreenChanged;
-            }
+#pragma warning disable CS0162 // Unreachable code detected
+            if (IsMobile) 
+                return;
+#pragma warning restore CS0162 // Unreachable code detected
+            DeviceOrientationEvent.OnOrientationChangedEvent += OnScreenChanged;
+            DeviceOrientationEvent.OnResolutionChangedEvent += OnScreenChanged;
         }
 
-        private void OnScreenChanged()
+        private static void OnScreenChanged()
         {
             _editorReferenceMiddlePinch.x = Screen.width * 0.5F;
             _editorReferenceMiddlePinch.y = Screen.height * 0.5F;
