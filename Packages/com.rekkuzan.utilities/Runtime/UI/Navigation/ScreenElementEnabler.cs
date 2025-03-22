@@ -18,6 +18,8 @@ namespace Spaice.Replicate.UI
             _screenElement.IsInStack
                 .Subscribe(UpdateIsInStack)
                 .AddTo(gameObject);
+            
+            _target.SetActive(false);
         }
 
         private void UpdateIsInStack(bool isInStack)
