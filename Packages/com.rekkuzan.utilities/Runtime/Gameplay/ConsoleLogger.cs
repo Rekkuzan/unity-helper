@@ -5,10 +5,10 @@ namespace Rekkuzan.Utilities
 {
     public static class ConsoleLogger
     {
-        [Conditional("UNITY_LOG_ENABLE")]
+        [Conditional("UNITY_LOG_ENABLE_DEBUG")]
         public static void Debug(string message)
         {
-#if UNITY_LOG_ENABLE
+#if UNITY_LOG_ENABLE_DEBUG
             UnityEngine.Debug.Log(message);
 #endif
         }
