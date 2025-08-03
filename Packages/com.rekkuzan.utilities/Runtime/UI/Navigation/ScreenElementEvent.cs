@@ -27,7 +27,8 @@ namespace Rekkuzan.Utilities.UI.Navigation
                 observable = observable.Skip(1);
             }
 
-            observable.Subscribe(TriggerEvent)
+            observable.Where(triggerEvent => triggerEvent)
+                .Subscribe(TriggerEvent)
                 .AddTo(gameObject);
         }
 
