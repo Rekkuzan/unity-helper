@@ -13,12 +13,21 @@ namespace Rekkuzan.Utilities.UI.Navigation
         private bool _negate;
 
         [SerializeField] private UnityEvent<bool> _eventToTrigger;
-        
+
+        [SerializeField] private bool _skipInitialization;
+
         private void Awake()
         {
-            _screenElement.IsInStack
-                .Select(isInStack => _negate ? !isInStack : isInStack)
-                .Subscribe(TriggerEvent)
+            var observable = _screenElement
+                .IsInStack
+                .Select(isInStack => _negate ? !isInStack : isInStack);
+
+            if (_skipInitialization)
+            {
+                observable = observable.Skip(1);
+            }
+
+            observable.Subscribe(TriggerEvent)
                 .AddTo(gameObject);
         }
 
