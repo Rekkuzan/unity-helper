@@ -12,6 +12,8 @@ namespace Spaice.Replicate.UI
         [SerializeField]
         private GameObject _target;
 
+        [SerializeField] private bool _negate;
+
 
         private void Awake()
         {
@@ -24,7 +26,7 @@ namespace Spaice.Replicate.UI
 
         private void UpdateIsInStack(bool isInStack)
         {
-           _target.SetActive(isInStack);
+           _target.SetActive(_negate ? !isInStack : isInStack);
         }
     }
 }
