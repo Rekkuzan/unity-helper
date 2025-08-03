@@ -13,7 +13,8 @@ namespace Rekkuzan.Utilities.UI.Navigation
         
         public IObservable<bool> IsInStack(ScreenElement element) => 
             Elements.ObserveCountChanged()
-                .Select(count => count != 0 && Elements.Contains(element))
+                .StartWith(0)
+                .Select(count => count > 0 && Elements.Contains(element))
                 .DistinctUntilChanged();
 
         public static void Show(ScreenElement element)
