@@ -12,7 +12,7 @@ namespace Spaice.Replicate.UI
         [SerializeField]
         private GameObject _target;
 
-        [SerializeField] private bool _negate;
+        [SerializeField, Tooltip("Negate the result of IsInStack")] private bool _negate;
 
 
         private void Awake()

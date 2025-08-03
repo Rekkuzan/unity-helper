@@ -13,12 +13,15 @@ namespace Rekkuzan.Utilities.UI.Navigation
         
         [SerializeField]
         private Transform _parent;
+        
+        [SerializeField, Tooltip("Negate the result of IsInStack")] private bool _negate;
 
         private GameObject _instance;
         
         private void Awake()
         {
             _screenElement.IsInStack
+                .Select(isInStack => _negate ? !isInStack : isInStack)
                 .Subscribe(CreateOrDestroy)
                 .AddTo(gameObject);
         }
